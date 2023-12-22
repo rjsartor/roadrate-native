@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { PlateType } from '../types/plates.types';
 import AxiosService from '../services/AxiosService';
+import { CommonStyles } from '../CommonStyles';
 
 type UnclaimStatus = 'idle' | 'warning' | 'success' | 'error';
 
@@ -34,8 +35,8 @@ const UnclaimPlate: React.FC<{ plate: PlateType }> = ({ plate }) => {
       <Button title="Unclaim this plate" onPress={toggleWarning} />
       {status === 'warning' && (
         <View style={styles.options}>
-          <Text>Are you sure?</Text>
-          <View style={styles.buttonsDiv}>
+          <Text  style={CommonStyles.subHeaderText}>Are you sure?</Text>
+          <View>
             <Button title="Yes" onPress={unClaimPlateClick} />
             <Button title="No" onPress={toggleWarning} />
           </View>

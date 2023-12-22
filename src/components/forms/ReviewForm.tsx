@@ -5,6 +5,8 @@ import AxiosService from '../../services/AxiosService';
 import { usePlates } from '../../hooks/use-plates';
 import StateSelect, { StateCode } from '../StateSelect';
 import { Picker } from '@react-native-picker/picker';
+import { CommonStyles } from '../../CommonStyles';
+import Spacer from '../Spacer';
 
 interface ReviewFormProps {
   userId: string;
@@ -76,19 +78,20 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ userId, initialFormData = {} })
 
   return (
     <View style={styles.container}>
-      <Text>Submit A RoadRating:</Text>
-      
-      <Text>License Plate:</Text>
+      <Text style={CommonStyles.labelText}>1. Find a license plate</Text>
+      <StateSelect 
+        state={formData.plateState as StateCode}
+        setState={(state: string) => setFormData({ ...formData, plateState: state })}
+      />
       <TextInput
-        style={styles.input}
-        placeholder="X90PL"
+        style={CommonStyles.textInput}
+        placeholder="Plate Number"
         value={formData.plateNumber}
         onChangeText={(text) => setFormData({ ...formData, plateNumber: text.toUpperCase() })}
         autoCapitalize="characters"
         maxLength={8}
       />
-
-      <Text>Rating:</Text>
+      <Text style={CommonStyles.labelText}>2. Select a rating</Text>
       <Picker
         selectedValue={formData.rating}
         onValueChange={(itemValue: any) =>
@@ -98,23 +101,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ userId, initialFormData = {} })
         <Picker.Item label="Good" value="true" />
         <Picker.Item label="Bad" value="false" />
       </Picker>
-
-      <Text>State:</Text>
-      <StateSelect 
-        state={formData.plateState as StateCode}
-        setState={(state: string) => setFormData({ ...formData, plateState: state })}
-      />
-
-      <Text>Message:</Text>
+      <Text style={CommonStyles.labelText}>3. Leave your message</Text>
       <TextInput
-        style={styles.textArea}
         multiline
-        numberOfLines={4}
-        placeholder="Be honest and objective!"
         value={formData.message}
         onChangeText={(text) => setFormData({ ...formData, message: text })}
+        style={[CommonStyles.textInput, { height: 100 }]}
       />
-
+      <Spacer height={2} />
       <Button
         onPress={handleSubmit}
         title="Submit Review"

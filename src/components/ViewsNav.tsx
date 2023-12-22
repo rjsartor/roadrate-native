@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useAuthTasks } from '../hooks/use-auth-tasks';
 
 const ViewsNav = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const navigation = useNavigation();
+  const { handleLogout } = useAuthTasks();
 
   useEffect(() => {
     const loadAccessToken = async () => {
@@ -23,10 +26,17 @@ const ViewsNav = () => {
 
   return (
     <View style={styles.navContainer}>
+      <View style={styles.topContainer}>
+        <TouchableOpacity onPress={() => navigateTo('Home')}>
+          <Image source={require('../../assets/road-rate.png')} style={styles.buttonImage} />
+        </TouchableOpacity>
+        {accessToken && (
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutIcon}>
+            <Icon name='sign-out' size={20} />
+          </TouchableOpacity>
+        )}
+      </View>
       <View style={styles.linkContainer}>
-        {/* <TouchableOpacity onPress={() => navigateTo('Home')} style={styles.navLink}>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity> */}
         {accessToken && (
           <>
             <TouchableOpacity onPress={() => navigateTo('ClaimPlate')} style={styles.navLink}>
@@ -41,29 +51,54 @@ const ViewsNav = () => {
           </>
         )}
       </View>
+      <View style={styles.borderBottom} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   navContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     padding: 10,
+    marginTop: 8,
+  },
+  topContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  flexGrow: {
+    flex: 1,
+  },
+  buttonImage: {
+    width: 200,
+    height: 50,
+    resizeMode: 'contain',
   },
   linkContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    flex: 1,
+    marginTop: 10,
+  },
+  logoutIcon: {
+    position: 'absolute',
+    right: 10, // Adjust as needed
+    top: 10, // Adjust as needed
   },
   navLink: {
     padding: 8,
-    marginHorizontal: 5,
+    // marginHorizontal: 5,
   },
   navText: {
     color: 'rgb(52, 110, 98)',
     fontSize: 16,
+  },
+  borderBottom: {
+    height: 1, // Height of the border
+    backgroundColor: 'black', // Color of the border
+    width: '75%', // Border length at 3/4 of its parent
+    marginTop: 10,
+    alignSelf: 'center', // Center the border within the navContainer
   },
 });
 

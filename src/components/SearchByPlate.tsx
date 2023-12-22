@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
+import { CommonStyles } from '../CommonStyles';
 
 interface SearchByPlateProps {
   search: string;
@@ -12,8 +13,8 @@ export const SearchByPlate: React.FC<SearchByPlateProps> = ({ search, setSearch 
       <TextInput
         value={search}
         onChangeText={setSearch}
-        style={styles.searchInput}
-        placeholder="2073WE..."
+        style={CommonStyles.textInput}
+        placeholder="Search by plate..."
       />
     </View>
   );
@@ -22,11 +23,7 @@ export const SearchByPlate: React.FC<SearchByPlateProps> = ({ search, setSearch 
 const styles = StyleSheet.create({
   searchSection: {
     padding: 10,
-  },
-  searchInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 10,
+    width: '90%',
+    alignSelf: 'center',
   },
 });

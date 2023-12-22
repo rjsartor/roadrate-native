@@ -74,7 +74,7 @@ export const StateSelect: React.FC<StateSelectProps> = ({ state, setState }) => 
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <View>
+    <View style={{ alignItems: 'flex-start' }}>
       <Button 
         title={state ? STATES.find(s => s.code === state)?.name || "State" : "Select State"} 
         onPress={() => setModalVisible(true)} 
@@ -94,7 +94,7 @@ export const StateSelect: React.FC<StateSelectProps> = ({ state, setState }) => 
               }}
               style={styles.picker}
             >
-              <Picker.Item label="State" value="" />
+              <Picker.Item label="Select State" value="" />
               {STATES.map(s => (
                 <Picker.Item key={s.code} label={s.name} value={s.code} />
               ))}

@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import { View, Text, Button, ScrollView } from 'react-native';
+import { View, Text, Button, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuthTasks } from '../hooks/use-auth-tasks';
 import ViewsNav from './ViewsNav';
@@ -7,6 +7,10 @@ import useReviews from '../hooks/use-reviews';
 import ReviewForm from './forms/ReviewForm';
 import { SearchByPlate } from './SearchByPlate';
 import ReviewList from './ReviewList';
+import { CommonStyles } from '../CommonStyles';
+import Spacer from './Spacer';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { theme } from '../theme';
 
 const Home: FC = () => {
   const [user, setUser] = useState<any | null>(null);
@@ -29,21 +33,62 @@ const Home: FC = () => {
     return <Text>Authenticating...</Text>;
   }
 
+  const renderSubmitReviewButton = () => {
+    const iconName = submitReview ? 'minus' : 'plus';
+    return (
+      <View style={Styles.buttonContainer}>
+        <TouchableOpacity
+          style={Styles.button}
+          onPress={() => setSubmitReview(prev => !prev)}
+        >
+          <Text style={{ color: '#fff' }}>
+            {submitReview ? 'Close Review' : 'New Review'}
+          </Text>
+          <Icon name={iconName} size={20} color="#fff" />
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <ScrollView style={{ flex: 1 }}>
       <ViewsNav />
       <View>
-        <Text>Hey there, {user?.username}</Text>
+        <Text style={CommonStyles.subHeaderText}>Hey there, {user?.username}!</Text>
       </View>
-      <Button
-        title="New Review"
-        onPress={() => setSubmitReview(prev => !prev)}
-      />
-      {submitReview && <ReviewForm userId={user?.id || ''} />}
-      <SearchByPlate search={plateFilter} setSearch={setPlateFilter} />
-      <ReviewList reviews={reviews} canClickPlate={true} />
+      <Spacer height={2} />
+      {renderSubmitReviewButton()}
+      {
+        submitReview ? (
+          <ReviewForm userId={user?.id || ''} />
+        ) : (
+          <View style={CommonStyles.container}>
+            <SearchByPlate search={plateFilter} setSearch={setPlateFilter} />
+            <ReviewList reviews={reviews} canClickPlate={true} />
+          </View>
+        )
+      }
     </ScrollView>
   );
 };
 
 export default Home;
+
+const Styles = StyleSheet.create({
+  // ... other styles
+  buttonContainer: {
+    alignItems: 'center', // Center the button horizontally
+    marginTop: 10, // Add some space above the button
+  },
+  button: {
+    flexDirection: 'row', // Arrange icon and text in a row
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary,
+    padding: 10,
+    borderRadius: 25, // Circular edges
+    gap: 10,
+        // Include other styling as needed...
+  },
+  // ... other styles
+});

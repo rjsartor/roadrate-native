@@ -26,6 +26,7 @@ export const ReviewList: React.FC<ReviewListProps> = ({ reviews, canClickPlate =
       )}
       keyExtractor={(item) => item._id}
       style={styles.reviewList}
+
     />
   );
 };
@@ -34,7 +35,6 @@ export const ReviewList: React.FC<ReviewListProps> = ({ reviews, canClickPlate =
 const styles = StyleSheet.create({
   reviewList: {
     padding: 15,
-    margin: 'auto',
     maxWidth: '100%',
     backgroundColor: 'rgb(250, 250, 250)',
     borderRadius: 8,

@@ -6,12 +6,13 @@ import { PlateType } from '../types/plates.types';
 import { ReviewType } from '../types/reviews.types';
 import { UserType } from '../types/auth.types';
 import ViewsNav from './ViewsNav';
-import Plate from './Plate';
 import ReviewList from './ReviewList';
 import ReviewForm from './forms/ReviewForm';
 import UnclaimPlate from './UnclaimPlate';
 import { usePlate } from '../hooks/use-plate';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import LicensePlate from './LicensePlate';
+import Spacer from './Spacer';
 
 interface PlatePageRouteParams {
   id: string;
@@ -23,6 +24,8 @@ export const PlatePage: React.FC = () => {
   const { plate, reviews }: { plate?: PlateType, reviews: ReviewType[] } = usePlate(id);
   const [userPlate, setIsUserPlate] = useState<boolean | null>(null);
   const [submitReview, setSubmitReview] = useState(false);
+  
+  console.log('userPlate', plate)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -39,34 +42,48 @@ export const PlatePage: React.FC = () => {
   if (!plate) return <ActivityIndicator size="large" />;
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView>
       <ViewsNav />
-      <Plate plate={plate} />
-      <ReviewList reviews={reviews} userPlate={userPlate} />
-      <UnclaimPlate plate={plate} />
+      <View style={styles.plateInfo}>
+        <View style={styles.plateContainer}>
+          <LicensePlate plateNumber={plate.plateNumber} plateState={plate.plateState} style={{ height: 150, width: 300 }} />
+        </View>
+        <Spacer height={2} />
+        <Text>{plate.karma || 0} karma</Text>
+      </View>
+      <Spacer height={3} />
+      {userPlate && <UnclaimPlate plate={plate} />}
       {!userPlate && (
         <>
           <Button
             title="New Review"
             onPress={() => setSubmitReview(prev => !prev)}
           />
-          {submitReview && (
-            <ReviewForm 
-              userId={plate.userId as string} 
-              initialFormData={{ 
-                plateNumber: plate.plateNumber,
-                plateState: plate.plateState, 
-              }}
-            />
-          )}
-        </>
-      )}
+            {submitReview && (
+              <ReviewForm 
+                userId={plate.userId as string} 
+                initialFormData={{ 
+                  plateNumber: plate.plateNumber,
+                  plateState: plate.plateState, 
+                }}
+              />
+            )}
+          </>
+        )}
+        {/* <ReviewList reviews={reviews} userPlate={userPlate} /> */}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  plateInfo: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  plateContainer: {
+    alignSelf: 'center',
+    marginTop: 32,
   }
 });
 

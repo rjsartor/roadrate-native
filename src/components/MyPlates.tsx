@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { usePlates } from '../hooks/use-plates';
 import { PlateType } from '../types/plates.types';
 import ViewsNav from './ViewsNav';
 import { CommonStyles } from '../CommonStyles';
+import LicensePlate from './LicensePlate';
 
-const MyPlatesList: React.FC = () => {
+const MyPlates: React.FC = () => {
   const navigation = useNavigation();
 
   const getUserId = async () => {
@@ -37,25 +38,30 @@ const MyPlatesList: React.FC = () => {
     : `Total Plates Owned: ${plates.length}`;
 
     const renderItem = ({ item }: { item: PlateType }) => (
-      <TouchableOpacity style={CommonStyles.button} onPress={() => myPlateClick(item)}>
-        <Text>{item.plateNumber} - {item.plateState}</Text>
-      </TouchableOpacity>
+      <View style={{ marginBottom: 20, justifyContent: 'center' }}>
+        <TouchableOpacity onPress={() => myPlateClick(item)}>
+          <LicensePlate plateNumber={item.plateNumber} plateState={item.plateState} style={{ height: 100, width: 200 }} />
+        </TouchableOpacity>
+      </View>
     );
   
     return (
-      <View style={CommonStyles.container}>
+      <View style={{ 
+        flex: 1,
+      }}>
         <ViewsNav />
         <Text style={CommonStyles.headerText}>My Plates</Text>
         <Text style={CommonStyles.subHeaderText}>{totalPlates}</Text>
-
         <FlatList
           data={plates}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
+          style={{ marginTop: 8, width: '100%' }}
+          contentContainerStyle={{ alignItems: 'center' }}
         />
       </View>
     );
 };
 
 
-export default MyPlatesList;
+export default MyPlates;

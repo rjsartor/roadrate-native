@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { PlateType } from '../types/plates.types';
 import Button from './Button'; // Assuming Button is a custom component with proper types defined
+import Spacer from './Spacer';
+import LicensePlate from './LicensePlate';
 
 interface PlateTableProps {
   plate: PlateType | null | undefined;
@@ -57,6 +59,9 @@ const PlateTable: React.FC<PlateTableProps> = ({
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>Plate Information</Text>
+      <Spacer height={2} />
+      <LicensePlate plateNumber={plateNumber} plateState={plateState} style={{ height: 120, width: 240, alignSelf: 'center' }}  />
+      <Spacer height={2} />
       <View style={styles.cardContent}>
         <Text style={styles.cardLabel}>License Plate:</Text>
         <Text style={styles.cardValue}>{plateNumber}</Text>
@@ -64,6 +69,7 @@ const PlateTable: React.FC<PlateTableProps> = ({
         <Text style={styles.cardLabel}>State:</Text>
         <Text style={styles.cardValue}>{plateState}</Text>
       </View>
+      <Spacer height={2} />
       {plateAction}
     </View>
   );

@@ -4,7 +4,7 @@
     "slug": "roadrate-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/thumbs-up.png",
     "userInterfaceStyle": "light",
     "scheme": "roadrate-mobile",
     "splash": {
@@ -17,21 +17,31 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "app.roadrate.roadrate-mobile"
+      "bundleIdentifier": "app.roadrate.roadrate",
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.roadrate.roadrate-mobile"
+      "package": "app.roadrate.roadrate",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "auth0Domain": "@REACT_APP_AUTH0_DOMAIN",
-      "auth0ClientId": "@REACT_APP_AUTH0_CLIENT_ID"
+      "auth0ClientId": "@REACT_APP_AUTH0_CLIENT_ID",
+      "eas": {
+        "projectId": "4e6561fb-ddbc-4cf4-8c35-07602f988a02"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/4e6561fb-ddbc-4cf4-8c35-07602f988a02"
     }
   }
 }

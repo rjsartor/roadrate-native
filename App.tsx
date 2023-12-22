@@ -5,7 +5,7 @@ import {Auth0Provider} from 'react-native-auth0';
 import LandingPage from './src/components/Landing';
 import Home from './src/components/Home';
 import ClaimPlate from './src/components/ClaimPlate';
-import MyPlatesList from './src/components/MyPlates';
+import MyPlates from './src/components/MyPlates';
 import About from './src/components/About';
 import MyReviews from './src/components/MyReviews';
 import PlatePage from './src/components/PlatePage';
@@ -26,11 +26,11 @@ const App = () => {
   return (
     <Auth0Provider domain={REACT_APP_AUTH0_DOMAIN} clientId={REACT_APP_AUTH0_CLIENT_ID}>
       <NavigationContainer linking={linking}>
-        <Stack.Navigator initialRouteName="LandingPage">
+        <Stack.Navigator initialRouteName="LandingPage" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="LandingPage" component={LandingPage} />
           {/* <Stack.Screen name="LoginForm" component={LoginForm} /> */}
           <Stack.Screen name="ClaimPlate" component={ClaimPlate} />
-          <Stack.Screen name="MyPlates" component={MyPlatesList} />
+          <Stack.Screen name="MyPlates" component={MyPlates} />
           <Stack.Screen name="About" component={About} />
           <Stack.Screen name="MyReviews" component={MyReviews} />
           <Stack.Screen name="Home" component={Home} />

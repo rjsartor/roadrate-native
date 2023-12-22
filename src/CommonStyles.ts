@@ -1,12 +1,12 @@
-import { StyleSheet, Button } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { theme } from './theme';
 
 export const CommonStyles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: theme.colors.background,
+    width: '100%',
   },
   headerText: {
     fontSize: 24,
@@ -20,6 +20,11 @@ export const CommonStyles = StyleSheet.create({
     color: theme.colors.primary,
     padding: 6,
     textAlign: 'center',
+  },
+  labelText: {
+    fontSize: 16,
+    color: theme.colors.primary,
+    padding: 6,
   },
   button: {
     backgroundColor: '#FFF',
@@ -39,18 +44,19 @@ export const CommonStyles = StyleSheet.create({
     marginVertical: 5,
   },
   errorText: {
-    color: 'red', // Or any other color to indicate errors or warnings
+    color: 'red',
     textAlign: 'center',
     fontSize: 16,
     marginVertical: 5,
   },
   textInput: {
     borderWidth: 1,
-    borderColor: '#e4e6e8',
+    borderColor: '#7a7c7e',
     borderRadius: 8,
     padding: 10,
-    marginVertical: 5,
+    marginVertical: 14,
     fontSize: 16,
     color: 'black',
+    width: '100%',
   },
 });

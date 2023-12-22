@@ -4,7 +4,7 @@ import { useAuth0, User } from 'react-native-auth0';
 import { UserType } from '../types/auth.types';
 import { findOrCreateUser } from '../auth/utils'; // Ensure this is compatible with React Native
 import { useNavigation } from '@react-navigation/native';
-import { AppNavigationPropType } from '../types/navigation.types';
+import { AppNavigationProp } from '../types/navigation.types';
 
 interface AuthTasksReturn {
   isLoading: boolean;
@@ -22,7 +22,7 @@ export const useAuthTasks = (): AuthTasksReturn => {
     clearSession,
   } = useAuth0();
 
-  const navigation: AppNavigationPropType = useNavigation();
+  const navigation: AppNavigationProp = useNavigation();
 
   const [userInfo, setUserInfo] = useState<UserType | null>(null);
   // const [accessToken, setAccessToken] = useState<string | null>(null); // set in state or AsyncStorage?
@@ -38,9 +38,14 @@ export const useAuthTasks = (): AuthTasksReturn => {
 
   const handleLogout = async () => {
     try {
-        await clearSession(); 
+      console.log('Logging out');
+      await clearSession().then(() => {
+        setUserInfo(null);
+        AsyncStorage.multiRemove(['accessToken', 'user', 'userId']);
+        navigation.navigate('LandingPage' as any);
+      });
     } catch (e) {
-        console.error(e);
+      console.error('Logout error:', e);
     }
   };
 

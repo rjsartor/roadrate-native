@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import AxiosService from '../../services/AxiosService';
 import { PlateType } from '../../types/plates.types';
 import StateSelect, { StateCode } from '../StateSelect';
@@ -38,15 +38,15 @@ const PlateSearchForm: React.FC<PlateSearchFormProps> = ({
   };
 
   return (
-    <View>
+    <View style={{ padding: 20 }}>
       <Text style={CommonStyles.subHeaderText}>Search a Valid Plate by State</Text>
+      <StateSelect state={searchState} setState={setSearchState} />
       <TextInput
         value={searchNumber}
         onChangeText={(text) => setSearchNumber(text.toUpperCase())}
         style={CommonStyles.textInput}
         placeholder="Search Plate Numbers"
       />
-      <StateSelect state={searchState} setState={setSearchState} />
       <Button
         title="Search"
         onPress={() => {
@@ -58,14 +58,5 @@ const PlateSearchForm: React.FC<PlateSearchFormProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    // Styles for your container
-  },
-  input: {
-    // Styles for your input field
-  },
-});
 
 export default PlateSearchForm;

@@ -1,21 +1,18 @@
 import React, { useState, FC } from 'react';
-import { View, Text, Image, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { useAuthTasks } from '../hooks/use-auth-tasks';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Spacer from './Spacer';
 
 const About: FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { handleLogin } = useAuthTasks();
 
-  const CloseButton: FC = () => {
-    return (
-      <TouchableOpacity style={styles.closeButton} onPress={() => setModalOpen(false)}>
-        <Text>X</Text>
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.aboutButton} onPress={() => setModalOpen(true)}>
+        <Text>Learn More</Text>
       </TouchableOpacity>
-    );
-  };
-
-  const AboutModal: FC<{ title: string }> = ({ title }) => {
-    return (
       <Modal
         visible={modalOpen}
         transparent={true}
@@ -24,41 +21,64 @@ const About: FC = () => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modal}>
-            <Text style={styles.modalHeader}>{title}</Text>
-            <AboutSection />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalOpen(false)}
+            >
+              <Icon name="times" size={24} color="#000" />
+            </TouchableOpacity>
+            <Text style={styles.modalHeader}>About RoadRate</Text>
+            <Spacer height={2} />
+            <Text style={styles.paragraph}>RoadRate was designed for the over 300 million drivers, passengers, and pedestrians in United States to leave anonymous reviews and messages for the owners of any vehicles. Look up your plate today and see what people are saying about your driving!</Text>
+            <View style={styles.aboutSection}>
+              <TouchableOpacity onPress={handleLogin}>
+                <Text style={styles.registerLink}>Sign up now!</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
-    );
-  };
-
-  const AboutSection: FC = () => {
-    return (
-      <View style={styles.aboutSection}>
-        {/* <Image source={icon} style={styles.icon} /> */}
-        <Text style={styles.paragraph}>RoadRate was designed for the over 220 million drivers...</Text>
-        <TouchableOpacity onPress={handleLogin}>
-          <Text style={styles.registerLink}>Start your journey with RoadRate today!</Text>
-        </TouchableOpacity>
-        <CloseButton />
-      </View>
-    );
-  };
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.aboutButton} onPress={() => setModalOpen(true)}>
-        <Text>Learn More</Text>
-      </TouchableOpacity>
-      {modalOpen && <AboutModal title="About RoadRate" />}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  closeButton: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    zIndex: 1,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  },
+  modal: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    width: '80%',
+    maxHeight: '75%',
+  },
+  modalHeader: {
+    fontSize: 24,
+    color: 'rgb(52, 110, 98)',
+    marginBottom: 10,
+  },
   container: {
     alignItems: 'center',
-    padding: 10,
   },
   aboutButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.164)',
@@ -68,44 +88,17 @@ const styles = StyleSheet.create({
     borderColor: 'whitesmoke',
     borderWidth: 1,
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-  },
-  modal: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 3,
-    width: '80%',
-    maxHeight: '75%',
-  },
-  modalHeader: {
-    fontSize: 24,
-    color: 'rgb(52, 110, 98)',
-    marginBottom: 10,
-  },
   aboutSection: {
     alignItems: 'center',
   },
   paragraph: {
-    textAlign: 'justify',
+    // textAlign: 'justify',
     marginBottom: 10,
   },
   registerLink: {
     color: 'rgb(52, 110, 98)',
     textDecorationLine: 'underline',
     marginTop: 10,
-  },
-  closeButton: {
-    marginTop: 10,
-    alignSelf: 'flex-end',
-    padding: 5,
-    paddingHorizontal: 10,
-    borderRadius: 3,
-    borderColor: 'rgb(52, 110, 98)',
-    borderWidth: 1,
   },
 });
 
